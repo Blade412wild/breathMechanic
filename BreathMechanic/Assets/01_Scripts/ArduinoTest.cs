@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ArduinoTest : MonoBehaviour
 {
+    // Text UI
     [SerializeField] private TextMeshProUGUI port1;
     [SerializeField] private TextMeshProUGUI port2;
     [SerializeField] private TextMeshProUGUI port3;
@@ -13,14 +14,24 @@ public class ArduinoTest : MonoBehaviour
     [SerializeField] private TextMeshProUGUI port6;
     [SerializeField] private TextMeshProUGUI port7;
     [SerializeField] private TextMeshProUGUI port8;
+
+    // ports
     string[] ports;
     int counter;
-    //private SerialPort dataStream = new SerialPort("COM7", 9600); // luister naar "eën seriale port maakt niet uit welke"
+    private SerialPort dataStream = new SerialPort("COM7", 9600); // luister naar "eën seriale port maakt niet uit welke"
+
+    //Data
+    private string receivedDataString;
+    private float yMovement;
+    private float xMovement;
+
+
+    
     // Start is called before the first frame updat
     void Start()
     {
         counter = 0;
-        //dataStream.Open();
+        dataStream.Open();
 
         // Get a list of serial port names.
         ports = SerialPort.GetPortNames();
@@ -41,8 +52,12 @@ public class ArduinoTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SortValue();
         //string value = dataStream.ReadLine();
         //Debug.Log(value);
+
+        Debug.Log("Y movement : " + yMovement);
+        Debug.Log("X movement : " +  xMovement);
     }
     private void AssigningPort(int i, string name)
     {
@@ -58,5 +73,12 @@ public class ArduinoTest : MonoBehaviour
             case 8: port8.text = name; break;
 
         }
+    }
+    private void SortValue()
+    {
+        receivedDataString = dataStream.ReadLine();
+        string[] data = receivedDataString.Split(';'); // split data betweem
+        yMovement = float.Parse(data[0]);
+        xMovement = float.Parse(data[1]);
     }
 }
