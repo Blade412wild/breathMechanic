@@ -22,8 +22,8 @@ public class ArduinoTest : MonoBehaviour
 
     //Data
     private string receivedDataString;
-    private float yMovement;
-    private float xMovement;
+    public float yMovement;
+    public float xMovement;
 
 
     
@@ -32,6 +32,7 @@ public class ArduinoTest : MonoBehaviour
     {
         counter = 0;
         dataStream.Open();
+        InvokeRepeating("SortValue", 0.0f, 0.01f);
 
         // Get a list of serial port names.
         ports = SerialPort.GetPortNames();
@@ -52,10 +53,6 @@ public class ArduinoTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SortValue();
-        //string value = dataStream.ReadLine();
-        //Debug.Log(value);
-
         Debug.Log("Y movement : " + yMovement);
         Debug.Log("X movement : " +  xMovement);
     }
